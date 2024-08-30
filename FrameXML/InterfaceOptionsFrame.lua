@@ -195,29 +195,50 @@ function ham.settingsFrame:InitializeOptions()
 
 
 	-------------  Healthstone button  -------------	
-	local raidStoneButton = CreateFrame("CheckButton", nil, self.panel, "InterfaceOptionsCheckButtonTemplate")
-	raidStoneButton:SetPoint("TOPLEFT", lastStaticElement, 0, -PADDING)
+	local lowPriorityHealthstoneButton = CreateFrame("CheckButton", nil, self.panel, "InterfaceOptionsCheckButtonTemplate")
+	lowPriorityHealthstoneButton:SetPoint("TOPLEFT", lastStaticElement, 0, -PADDING)
 	---@diagnostic disable-next-line: undefined-field
-	raidStoneButton.Text:SetText("Low Priority Healthstones(Instance only)")
-	raidStoneButton:HookScript("OnClick", function(_, btn, down)
-		HAMDB.raidStone = raidStoneButton:GetChecked()
+	lowPriorityHealthstoneButton.Text:SetText("Low Priority Healthstones")
+	lowPriorityHealthstoneButton:HookScript("OnClick", function(_, btn, down)
+		HAMDB.lowPriorityHealthstone = lowPriorityHealthstoneButton:GetChecked()
 		ham.updateHeals()
 		ham.updateMacro()
 		self:updatePrio()
 	end)
-	raidStoneButton:HookScript("OnEnter", function(_, btn, down)
+	lowPriorityHealthstoneButton:HookScript("OnEnter", function(_, btn, down)
 		---@diagnostic disable-next-line: param-type-mismatch
-		GameTooltip:SetOwner(raidStoneButton, "ANCHOR_TOPRIGHT")
+		GameTooltip:SetOwner(lowPriorityHealthstoneButton, "ANCHOR_TOPRIGHT")
 		GameTooltip:SetText(
-			"This option will prioritize health potions over a healthstone while in a Instance")
+			"This option will prioritize health potions over a healthstone")
 		GameTooltip:Show()
 	end)
-	raidStoneButton:HookScript("OnLeave", function(_, btn, down)
+	lowPriorityHealthstoneButton:HookScript("OnLeave", function(_, btn, down)
 		GameTooltip:Hide()
 	end)
-	raidStoneButton:SetChecked(HAMDB.raidStone)
-	lastStaticElement = raidStoneButton
+	lowPriorityHealthstoneButton:SetChecked(HAMDB.lowPriorityHealthstone)
+	lastStaticElement = lowPriorityHealthstoneButton
 
+	local lphInstanceButton = CreateFrame("CheckButton", nil, self.panel, "InterfaceOptionsCheckButtonTemplate")
+	lphInstanceButton:SetPoint("TOPLEFT", lastStaticElement, 300, 0)
+	---@diagnostic disable-next-line: undefined-field
+	lphInstanceButton.Text:SetText("(Only in instances)")
+	lphInstanceButton:HookScript("OnClick", function(_, btn, down)
+		HAMDB.lowPriorityHealthstoneOnlyInstance = lphInstanceButton:GetChecked()
+		ham.updateHeals()
+		ham.updateMacro()
+		self:updatePrio()
+	end)
+	lphInstanceButton:HookScript("OnEnter", function(_, btn, down)
+		---@diagnostic disable-next-line: param-type-mismatch
+		GameTooltip:SetOwner(lphInstanceButton, "ANCHOR_TOPRIGHT")
+		GameTooltip:SetText(
+			"This option will prioritize health potions over a healthstone only when in instances")
+		GameTooltip:Show()
+	end)
+	lphInstanceButton:HookScript("OnLeave", function(_, btn, down)
+		GameTooltip:Hide()
+	end)
+	lphInstanceButton:SetChecked(HAMDB.lowPriorityHealthstoneOnlyInstance)
 
 	-------------  ITEMS  -------------
 	local witheringPotionButton = nil
@@ -310,7 +331,8 @@ function ham.settingsFrame:InitializeOptions()
 			end
 		end
 		cdResetButton:SetChecked(HAMDB.cdReset)
-		raidStoneButton:SetChecked(HAMDB.raidStone)
+		lowPriorityHealthstoneButton:SetChecked(HAMDB.lowPriorityHealthstone)
+		lphInstanceButton:SetChecked(HAMDB.lowPriorityHealthstoneOnlyInstance)
 		if isRetail then
 			witheringPotionButton:SetChecked(HAMDB.witheringPotion)
 			witheringDreamsPotionButton:SetChecked(HAMDB.witheringDreamsPotion)

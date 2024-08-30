@@ -1,7 +1,8 @@
 local addonName, ham = ...
 ham.defaults = {
     cdReset = false,
-    raidStone = false,
+    lowPriorityHealthstone = false,
+    lowPriorityHealthstoneOnlyInstance = false,
     witheringPotion = false,
     witheringDreamsPotion = false,
     useHealthstones = true,

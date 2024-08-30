@@ -70,14 +70,18 @@ function ham.updateHeals()
 
   ham.spellIDs = ham.myPlayer.getHealingSpells()
 
+  local lowPriorityHealthstone = HAMDB.lowPriorityHealthstone and
+      ((HAMDB.lowPriorityHealthstoneOnlyInstance and IsInInstance())
+        or not HAMDB.lowPriorityHealthstoneOnlyInstance)
+
   addPlayerHealingItemIfAvailable()
-  -- lower the priority of healthstones in insatanced content if selected
-  if HAMDB.raidStone and IsInInstance() then
-    addPotIfAvailable()
+
+  if not lowPriorityHealthstone then
     addHealthstoneIfAvailable()
-  else
+  end
+  addPotIfAvailable()
+  if lowPriorityHealthstone then
     addHealthstoneIfAvailable()
-    addPotIfAvailable()
   end
 end
 
